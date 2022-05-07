@@ -25,12 +25,13 @@ async function run() {
             res.send(items)
             console.log(items);
         })
-        app.get('/items/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) }
-            const items = await itemCollection.findOne(query)
-            res.send(items);
-        })
+        // app.get('/items/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const query = { _id: ObjectId(id) }
+        //     const items = await itemCollection.findOne(query)
+        //     res.send(items);
+        // })
+
 
     }
     finally {
