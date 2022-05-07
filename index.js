@@ -24,7 +24,6 @@ async function run() {
             const cursor = itemCollection.find(query);
             const items = await cursor.toArray()
             res.send(items)
-            console.log(items);
         })
         // get single item by id
         app.get('/items/:id', async (req, res) => {
@@ -37,24 +36,25 @@ async function run() {
         app.put('/items/:id', async (req, res) => {
             const id = req.params.id;
             const data = req.body;
-            console.log(data);
             const query = { _id: ObjectId(id) }
             const options = { upsert: true }
             const updateDoc = {
                 $set: {
-                    quantity: data.quantity,
-                },
+                    quantity: data.quantity
+                }
             };
             const item = await itemCollection.updateOne(query, updateDoc, options)
             res.send(item);
         })
+
         // delete item
-        // app.delete('/item/:itemId', async (req, res) => {
-        //     const id = req.params.id;
-        //     const query = { _id: ObjectId(id) }
-        //     const result = await itemCollection.deleteOne(query);
-        //     res.send(result)
-        // })
+        app.delete('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id);
+            const query = { _id: ObjectId(id) }
+            const result = await itemCollection.deleteOne(query);
+            res.send(result)
+        })
 
 
     }
