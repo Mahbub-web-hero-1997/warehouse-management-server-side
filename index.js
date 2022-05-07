@@ -46,13 +46,20 @@ async function run() {
             const item = await itemCollection.updateOne(query, updateDoc, options)
             res.send(item);
         })
-
         // delete item
         app.delete('/items/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id);
             const query = { _id: ObjectId(id) }
             const result = await itemCollection.deleteOne(query);
+            res.send(result)
+        })
+
+        // Add items
+        app.post('/items', async (req, res) => {
+            const newItem = req.body;
+            console.log(newItem);
+            const result = await itemCollection.insertOne(newItem)
             res.send(result)
         })
 
