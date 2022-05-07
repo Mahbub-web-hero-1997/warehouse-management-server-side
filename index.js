@@ -37,6 +37,7 @@ async function run() {
         app.put('/items/:id', async (req, res) => {
             const id = req.params.id;
             const data = req.body;
+            console.log(data);
             const query = { _id: ObjectId(id) }
             const options = { upsert: true }
             const updateDoc = {
@@ -44,7 +45,7 @@ async function run() {
                     quantity: data.quantity,
                 },
             };
-            const item = await itemCollection.findOne(query, updateDoc, options)
+            const item = await itemCollection.updateOne(query, updateDoc, options)
             res.send(item);
         })
         // delete item
