@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const app = express();
 app.use(cors());
@@ -17,6 +17,7 @@ async function run() {
     try {
         await client.connect();
         const itemCollection = client.db('warehouseItems').collection('items');
+        // Get Multiple data
         app.get('/items', async (req, res) => {
             const query = {}
             const cursor = itemCollection.find(query);
@@ -24,20 +25,19 @@ async function run() {
             res.send(items)
             console.log(items);
         })
+        app.get('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const items = await itemCollection.findOne(query)
+            res.send(items);
+        })
+
     }
     finally {
 
     }
 
 } run().catch(console.dir)
-
-
-
-
-
-// app.get('/', (req, res) => {
-//     res.send('ddddd')
-// })
 
 app.listen(port, () => {
     console.log('Listening to port', port);
