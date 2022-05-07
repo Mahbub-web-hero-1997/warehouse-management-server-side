@@ -26,21 +26,34 @@ async function run() {
             res.send(items)
             console.log(items);
         })
-
+        // get single item by id
         app.get('/items/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const items = await itemCollection.findOne(query)
             res.send(items);
         })
-
-        // delete item
-        app.delete('/item/:itemId', async (req, res) => {
+        // update item
+        app.put('/items/:id', async (req, res) => {
             const id = req.params.id;
+            const data = req.body;
             const query = { _id: ObjectId(id) }
-            const result = await itemCollection.deleteOne(query);
-            res.send(result)
+            const options = { upsert: true }
+            const updateDoc = {
+                $set: {
+                    quantity: data.quantity,
+                },
+            };
+            const item = await itemCollection.findOne(query, updateDoc, options)
+            res.send(item);
         })
+        // delete item
+        // app.delete('/item/:itemId', async (req, res) => {
+        //     const id = req.params.id;
+        //     const query = { _id: ObjectId(id) }
+        //     const result = await itemCollection.deleteOne(query);
+        //     res.send(result)
+        // })
 
 
     }
