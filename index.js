@@ -18,7 +18,7 @@ async function run() {
     try {
         await client.connect();
         const itemCollection = client.db('warehouseItems').collection('items');
-        // Get Multiple data
+        // Get Multiple Item
         app.get('/items', async (req, res) => {
             const query = {}
             const cursor = itemCollection.find(query);
